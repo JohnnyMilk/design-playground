@@ -34,7 +34,7 @@ if(total>10000000)throw Error('模型網格過大');
 const vox=new Uint8Array(total),idx=(x,y,z)=>x+nx*(y+ny*z);
 for(let z=0;z<4;z++)for(let y=0;y<ny-1;y++)for(let x=0;x<nx-1;x++)vox[idx(x,y,z)]=1;
 for(const {d,mesh} of parts){
-const b=new THREE.Box3().setFromObject(mesh),inv=mesh.matrixWorld.clone().invert(),p=new THREE.Vector3();
+mesh.updateMatrix();const b=mesh.geometry.boundingBox?mesh.geometry.boundingBox.clone():new THREE.Box3().setFromBufferAttribute(mesh.geometry.attributes.position);b.applyMatrix4(mesh.matrix);const inv=mesh.matrix.clone().invert(),p=new THREE.Vector3();
 const x1=Math.max(0,Math.floor(b.min.x)),x2=Math.min(nx-1,Math.ceil(b.max.x));
 const y1=Math.max(0,Math.floor(b.min.y)),y2=Math.min(ny-1,Math.ceil(b.max.y));
 const z1=Math.max(0,Math.floor(b.min.z)),z2=Math.min(nz-1,Math.ceil(b.max.z));
