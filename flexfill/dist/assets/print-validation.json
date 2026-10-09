@@ -1,0 +1,123 @@
+[
+  {
+    "file": "01_base.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      74.0,
+      59.4,
+      71.0
+    ],
+    "volume_mm3": 144674.58
+  },
+  {
+    "file": "01_hood.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      75.05,
+      60.0,
+      92.5
+    ],
+    "volume_mm3": 108208.28
+  },
+  {
+    "file": "02_base.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      87.0,
+      70.7,
+      77.5
+    ],
+    "volume_mm3": 175160.91
+  },
+  {
+    "file": "02_hood.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      72.8,
+      70.0,
+      92.5
+    ],
+    "volume_mm3": 125150.7
+  },
+  {
+    "file": "03_base.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      130.0,
+      83.0,
+      91.0
+    ],
+    "volume_mm3": 357839.43
+  },
+  {
+    "file": "03_hood.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      130.0,
+      75.05,
+      92.5
+    ],
+    "volume_mm3": 233056.32
+  },
+  {
+    "file": "06_partition.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      2.5,
+      28.0,
+      22.0
+    ],
+    "volume_mm3": 1540.0
+  },
+  {
+    "file": "04_base.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      66.0,
+      74.0,
+      87.0
+    ],
+    "volume_mm3": 169316.11
+  },
+  {
+    "file": "04_hood.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      65.0,
+      75.05,
+      92.5
+    ],
+    "volume_mm3": 117033.28
+  },
+  {
+    "file": "05_base.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      126.6,
+      74.0,
+      82.5
+    ],
+    "volume_mm3": 179642.61
+  },
+  {
+    "file": "05_hood.stl",
+    "watertight": true,
+    "connected_components": 1,
+    "dimensions_mm": [
+      65.0,
+      75.05,
+      92.5
+    ],
+    "volume_mm3": 117033.28
+  }
+]

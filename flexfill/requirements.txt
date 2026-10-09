@@ -1,0 +1,3 @@
+numpy
+trimesh==5.1.1
+manifold3d
