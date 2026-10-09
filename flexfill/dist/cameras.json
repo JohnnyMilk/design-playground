@@ -1,0 +1,385 @@
+{
+  "version": 1,
+  "note": "直接修改每個工站 views 陣列，可增加/刪除視角；position 為攝影機位置 [x,y,z]，target 為觀察中心 [x,y,z]。第05工站聚焦在斜坡開始之前。",
+  "defaultView": "perspective",
+  "stations": [
+    {
+      "id": "overview",
+      "views": [
+        {
+          "id": "perspective",
+          "label": "立體",
+          "position": [
+            -342.2,
+            354,
+            444
+          ],
+          "target": [
+            0,
+            45,
+            -28
+          ]
+        },
+        {
+          "id": "front",
+          "label": "正面",
+          "position": [
+            0,
+            65,
+            562
+          ],
+          "target": [
+            0,
+            45,
+            -28
+          ]
+        },
+        {
+          "id": "top",
+          "label": "俯視",
+          "position": [
+            0,
+            590,
+            -28
+          ],
+          "target": [
+            0,
+            45,
+            -28
+          ]
+        },
+        {
+          "id": "back",
+          "label": "背面",
+          "position": [
+            0,
+            90,
+            -618
+          ],
+          "target": [
+            0,
+            45,
+            -28
+          ]
+        }
+      ]
+    },
+    {
+      "id": "01",
+      "views": [
+        {
+          "id": "perspective",
+          "label": "立體",
+          "position": [
+            -263.4,
+            138,
+            119
+          ],
+          "target": [
+            -130,
+            55,
+            -65
+          ]
+        },
+        {
+          "id": "front",
+          "label": "正面",
+          "position": [
+            -130,
+            65,
+            165
+          ],
+          "target": [
+            -130,
+            55,
+            -65
+          ]
+        },
+        {
+          "id": "top",
+          "label": "俯視",
+          "position": [
+            -130,
+            230,
+            -65
+          ],
+          "target": [
+            -130,
+            55,
+            -65
+          ]
+        },
+        {
+          "id": "back",
+          "label": "背面",
+          "position": [
+            -130,
+            90,
+            -295
+          ],
+          "target": [
+            -130,
+            55,
+            -65
+          ]
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "views": [
+        {
+          "id": "perspective",
+          "label": "立體",
+          "position": [
+            -263.4,
+            138,
+            184
+          ],
+          "target": [
+            -130,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "front",
+          "label": "正面",
+          "position": [
+            -130,
+            65,
+            230
+          ],
+          "target": [
+            -130,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "top",
+          "label": "俯視",
+          "position": [
+            -130,
+            230,
+            0
+          ],
+          "target": [
+            -130,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "back",
+          "label": "背面",
+          "position": [
+            -130,
+            90,
+            -230
+          ],
+          "target": [
+            -130,
+            55,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "views": [
+        {
+          "id": "perspective",
+          "label": "立體",
+          "position": [
+            -186.6,
+            162,
+            216
+          ],
+          "target": [
+            -30,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "front",
+          "label": "正面",
+          "position": [
+            -30,
+            65,
+            270
+          ],
+          "target": [
+            -30,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "top",
+          "label": "俯視",
+          "position": [
+            -30,
+            270,
+            0
+          ],
+          "target": [
+            -30,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "back",
+          "label": "背面",
+          "position": [
+            -30,
+            90,
+            -270
+          ],
+          "target": [
+            -30,
+            55,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "views": [
+        {
+          "id": "perspective",
+          "label": "立體",
+          "position": [
+            -65.9,
+            138,
+            184
+          ],
+          "target": [
+            67.5,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "front",
+          "label": "正面",
+          "position": [
+            67.5,
+            65,
+            230
+          ],
+          "target": [
+            67.5,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "top",
+          "label": "俯視",
+          "position": [
+            67.5,
+            230,
+            0
+          ],
+          "target": [
+            67.5,
+            55,
+            0
+          ]
+        },
+        {
+          "id": "back",
+          "label": "背面",
+          "position": [
+            67.5,
+            90,
+            -230
+          ],
+          "target": [
+            67.5,
+            55,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "views": [
+        {
+          "id": "perspective",
+          "label": "立體",
+          "position": [
+            11.9,
+            147,
+            196
+          ],
+          "target": [
+            154,
+            36,
+            0
+          ]
+        },
+        {
+          "id": "front",
+          "label": "正面",
+          "position": [
+            154,
+            65,
+            245
+          ],
+          "target": [
+            154,
+            36,
+            0
+          ]
+        },
+        {
+          "id": "top",
+          "label": "俯視",
+          "position": [
+            154,
+            245,
+            0
+          ],
+          "target": [
+            154,
+            36,
+            0
+          ]
+        },
+        {
+          "id": "back",
+          "label": "背面",
+          "position": [
+            154,
+            90,
+            -245
+          ],
+          "target": [
+            154,
+            36,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "partition": {
+    "position": [
+      -225,
+      178,
+      245
+    ],
+    "target": [
+      -92,
+      57,
+      0
+    ]
+  }
+}
