@@ -28,7 +28,7 @@ def shape(kind,pos,size,color,stage,category='body',rotation=None,printpart=None
     if printpart:solids.setdefault(printpart,[]).append(m.copy())
     return m
 widths=[60,70,130,65,65];start=-195
-names=['入料與去袋','D/L 轉角轉送','加熱取紙與共同升降','上層充填加塞／回退','震動盤與下層出料']
+names=['入料與去袋','D/L 轉角轉送','加熱取紙與共同升降','上層充填加塞／回退','下層出料']
 centers=[]
 for i,w in enumerate(widths):
     x=start+w/2;centers.append(x);b=f'{i+1:02d}_base';h=f'{i+1:02d}_hood';dep=70
