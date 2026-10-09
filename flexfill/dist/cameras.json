@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "直接修改每個工站 views 陣列，可增加/刪除視角；position 為攝影機位置 [x,y,z]，target 為觀察中心 [x,y,z]。第05工站聚焦在斜坡開始之前。",
+  "note": "直接修改每個工站 views 陣列，可增加/刪除視角；position 為攝影機位置 [x,y,z]，target 為觀察中心 [x,y,z]。",
   "defaultView": "perspective",
   "stations": [
     {
