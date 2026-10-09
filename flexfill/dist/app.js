@@ -16,7 +16,7 @@ try{
  const gateControl=document.querySelector('#partition'),gateLabel=document.querySelector('#partition-state');let gateTarget=1;
  function setGate(v){gateTarget=v;gateControl.value=String(Math.round(v*100));gateLabel.textContent=v>.98?'升起 · nest 可通過':v<.02?'降下 · 擋住 nest':'升降中';}
  gateControl.oninput=()=>setGate(Number(gateControl.value)/100);
- document.querySelector('#partition-focus').onclick=()=>{document.querySelector('#hood').checked=false;visibility();select(1);controls.target.set(-92,57,0);camera.position.set(-205,160,210);controls.update();};
+ document.querySelector('#partition-focus').onclick=()=>{document.querySelector('#hood').checked=false;visibility();select(1);const p=cameraConfig.partition||{position:[-225,178,245],target:[-92,57,0]};controls.target.set(...p.target);camera.position.set(...p.position);controls.update();};
  // Reference nameplate is rendered as lettering, not embedded in printable geometry.
  const c=document.createElement('canvas');c.width=1024;c.height=160;const ctx=c.getContext('2d');ctx.fillStyle='#0b7d84';ctx.font='bold 108px Arial';ctx.fillText('flexfill',90,120);const tex=new THREE.CanvasTexture(c);const label=new THREE.Mesh(new THREE.PlaneGeometry(31,5),new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false}));label.rotation.x=Math.PI/2;label.position.set(-13,-35.65,101);root.add(label);
  // Floor-level process path. In top view: inlet above left, outlet to the right.
@@ -32,8 +32,19 @@ try{
  for(let j=0;j<feedPoints.length-1;j++){const a=new THREE.Vector3(...feedPoints[j]),v=new THREE.Vector3(...feedPoints[j+1]).sub(a);flow.add(new THREE.ArrowHelper(v.clone().normalize(),a,v.length(),0x9274ca,4,2));}
  const movingNest=new THREE.Mesh(new THREE.BoxGeometry(20,4,17),new THREE.MeshStandardMaterial({color:0xf4c257,transparent:true,opacity:.8}));flow.add(movingNest);
  let flowTime=0,followFlow=false;const flowStation=[0,1,2,2,2,2,2,3,3,3,2,4,4];const flowCheckbox=document.querySelector('#flow');
- flowCheckbox.onchange=()=>{followFlow=flowCheckbox.checked;flow.visible=flowCheckbox.checked;gateControl.disabled=flow.visible;if(!flow.visible)setGate(1);document.querySelector('#flow-status').hidden=!flow.visible;if(flow.visible){document.querySelector('#hood').checked=false;visibility();selected=-1;view('front');showStation(0);}flowTime=0;};
- let selected=-1;const stationContent=await loadStationContent();
+ flowCheckbox.onchange=()=>{followFlow=flowCheckbox.checked;flow.visible=flowCheckbox.checked;gateControl.disabled=flow.visible;if(!flow.visible)setGate(1);document.querySelector('#flow-status').hidden=!flow.visible;if(flow.visible){document.querySelector('#hood').checked=false;visibility();selected=-1;showStation(0);renderCameraButtons();view('front');}flowTime=0;};
+ let selected=-1;
+ const cameraConfig=await (async()=>{
+  for(const url of ['https://raw.githubusercontent.com/JohnnyMilk/design-playground/main/flexfill/dist/cameras.json?t='+Date.now(),'./cameras.json?t='+Date.now()]){
+   try{const response=await fetch(url,{cache:'no-store'});if(!response.ok)continue;const json=await response.json();
+    const valid=v=>v&&typeof v.id==='string'&&typeof v.label==='string'&&[v.position,v.target].every(a=>Array.isArray(a)&&a.length===3&&a.every(Number.isFinite));
+    if(Array.isArray(json.stations)&&json.stations.some(s=>s.id==='overview')&&json.stations.every(s=>typeof s.id==='string'&&Array.isArray(s.views)&&s.views.length>0&&s.views.every(valid)))return json;
+   }catch(e){console.warn('Camera config fallback',e);}
+  }
+  return {defaultView:'perspective',stations:[{id:'overview',views:[{id:'perspective',label:'立體',position:[-342,354,444],target:[0,45,-28]}]},...data.stages.map((stage,i)=>({id:String(i+1).padStart(2,'0'),views:[{id:'perspective',label:'立體',position:[stage.x-145,150,-stage.y+200],target:[stage.x,55,-stage.y]}]}))]};
+ })();
+ const cameraBar=document.querySelector('.camera-bar');
+ const stationContent=await loadStationContent();
  const desc=stationContent.stations.map(s=>[s.name,s.description]);
  const contentStatus=document.querySelector('#station-content-status');contentStatus.textContent=stationContent.warning;contentStatus.hidden=!stationContent.warning;
  const stations=document.querySelector('#stations'),detail=document.querySelector('#detail');
@@ -47,11 +58,23 @@ try{
   detail.innerHTML=i<0?overview:`<span class="mini">工作站 0${i+1}</span><h2>${escapeText(desc[i][0])}</h2><p>${escapeText(desc[i][1])}</p>`;
   if(i<0)stations.after(detail);else buttons[i].after(detail);
  }
- function select(i){followFlow=false;showStation(i);view('perspective');}
- function view(v){const x=selected===4?195:selected<0?0:data.stages[selected].x,z=selected<0?-28:-data.stages[selected].y,d=selected===4?190:selected<0?590:Math.max(190,data.stages[selected].width*2);controls.target.set(x,selected===4?30:selected<0?45:55,z);const p={perspective:[x-d*.58,d*.60,z+d*.80],front:[x,60,z+d],top:[x,d,z+.01],back:[x,85,z-d]}[v];camera.up.set(0,1,0);camera.position.set(...p);controls.update();document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));document.querySelector('#mode-label').textContent=selected<0?'L 形配置 · 第 12 版':desc[selected][0];}
- document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>view(b.dataset.view)));document.querySelector('#all').onclick=()=>select(-1);document.querySelector('#reset').onclick=()=>{document.querySelector('#hood').checked=true;document.querySelector('#glass').checked=true;document.querySelector('#rotate').checked=false;controls.autoRotate=false;flowCheckbox.checked=false;flow.visible=false;gateControl.disabled=false;setGate(1);document.querySelector('#flow-status').hidden=true;visibility();select(-1);};
+ function select(i){followFlow=false;showStation(i);renderCameraButtons();view(cameraConfig.defaultView||'perspective');}
+ function cameraGroup(){return cameraConfig.stations.find(s=>s.id===(selected<0?'overview':stationContent.stations[selected].id))||cameraConfig.stations.find(s=>s.id==='overview');}
+ function renderCameraButtons(){
+  cameraBar.querySelectorAll('[data-view]').forEach(b=>b.remove());
+  const reset=cameraBar.querySelector('#reset');
+  for(const preset of cameraGroup().views){const b=document.createElement('button');b.type='button';b.dataset.view=preset.id;b.textContent=preset.label;b.addEventListener('click',()=>view(preset.id));cameraBar.insertBefore(b,reset);}
+ }
+ function view(v){
+  const group=cameraGroup(),preset=group.views.find(p=>p.id===v)||group.views.find(p=>p.id===cameraConfig.defaultView)||group.views[0];
+  controls.target.set(...preset.target);camera.up.set(0,1,0);camera.position.set(...preset.position);controls.update();
+  cameraBar.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===preset.id));
+  document.querySelector('#mode-label').textContent=selected<0?'L 形配置 · 第 12 版':desc[selected][0];
+ }
+ renderCameraButtons();
+ document.querySelector('#all').onclick=()=>select(-1);document.querySelector('#reset').onclick=()=>{document.querySelector('#hood').checked=true;document.querySelector('#glass').checked=true;document.querySelector('#rotate').checked=false;controls.autoRotate=false;flowCheckbox.checked=false;flow.visible=false;gateControl.disabled=false;setGate(1);document.querySelector('#flow-status').hidden=true;visibility();select(-1);};
  function visibility(){meshes.forEach(m=>{m.visible=m.userData.category==='glass'?document.querySelector('#glass').checked&&document.querySelector('#hood').checked:m.userData.category==='hood'?document.querySelector('#hood').checked:true;});label.visible=document.querySelector('#hood').checked;}
  document.querySelector('#glass').onchange=visibility;document.querySelector('#hood').onchange=visibility;document.querySelector('#rotate').onchange=e=>controls.autoRotate=e.target.checked;
  function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}new ResizeObserver(resize).observe(mount);resize();view('perspective');if(camera.aspect<1.15){camera.position.multiplyScalar(1.18);controls.update();}status.hidden=true;
- let last=performance.now();renderer.setAnimationLoop(()=>{const now=performance.now();const dt=Math.min((now-last)/1000,.1);last=now;if(flow.visible){flowTime+=dt;const step=Math.floor(flowTime/2.2)%(path.length-1),t=(flowTime%2.2)/2.2;if(followFlow&&selected!==flowStation[step])showStation(flowStation[step]);setGate(step===1?1:0);movingNest.position.lerpVectors(new THREE.Vector3(...path[step]),new THREE.Vector3(...path[step+1]),t);liftMeshes.forEach(m=>{m.position.z=step===6||step===10?movingNest.position.y-3.5:step>=7&&step<=9?61.5:40.5;});document.querySelector('#flow-status').textContent='工作站 '+stationContent.stations[flowStation[step]].id+'｜'+desc[flowStation[step]][0]+' — '+desc[flowStation[step]][1]+'（'+flowNames[step]+'）';}partitionMeshes.forEach(m=>m.position.z+=(52+24*gateTarget-m.position.z)*Math.min(1,dt*7));if(!flow.visible)liftMeshes.forEach(m=>m.position.z=40.5);controls.update();renderer.render(scene,camera);});
+ let last=performance.now();renderer.setAnimationLoop(()=>{const now=performance.now();const dt=Math.min((now-last)/1000,.1);last=now;if(flow.visible){flowTime+=dt;const step=Math.floor(flowTime/2.2)%(path.length-1),t=(flowTime%2.2)/2.2;if(followFlow&&selected!==flowStation[step]){showStation(flowStation[step]);renderCameraButtons();view('front');}setGate(step===1?1:0);movingNest.position.lerpVectors(new THREE.Vector3(...path[step]),new THREE.Vector3(...path[step+1]),t);liftMeshes.forEach(m=>{m.position.z=step===6||step===10?movingNest.position.y-3.5:step>=7&&step<=9?61.5:40.5;});document.querySelector('#flow-status').textContent='工作站 '+stationContent.stations[flowStation[step]].id+'｜'+desc[flowStation[step]][0]+' — '+desc[flowStation[step]][1]+'（'+flowNames[step]+'）';}partitionMeshes.forEach(m=>m.position.z+=(52+24*gateTarget-m.position.z)*Math.min(1,dt*7));if(!flow.visible)liftMeshes.forEach(m=>m.position.z=40.5);controls.update();renderer.render(scene,camera);});
 }catch(e){console.error(e);status.textContent='3D 載入失敗。請使用支援 WebGL 的 Safari／Chrome 重新開啟；下方模型檔仍可下載。';}
