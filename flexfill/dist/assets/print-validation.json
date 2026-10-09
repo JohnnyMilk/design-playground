@@ -49,10 +49,10 @@
     "connected_components": 1,
     "dimensions_mm": [
       130.0,
-      83.0,
+      74.0,
       91.0
     ],
-    "volume_mm3": 357839.43
+    "volume_mm3": 343052.69
   },
   {
     "file": "03_hood.stl",
@@ -82,10 +82,10 @@
     "connected_components": 1,
     "dimensions_mm": [
       66.0,
-      74.0,
+      83.0,
       87.0
     ],
-    "volume_mm3": 169316.11
+    "volume_mm3": 184102.7
   },
   {
     "file": "04_hood.stl",

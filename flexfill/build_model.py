@@ -28,7 +28,7 @@ def shape(kind,pos,size,color,stage,category='body',rotation=None,printpart=None
     if printpart:solids.setdefault(printpart,[]).append(m.copy())
     return m
 widths=[60,70,130,65,65];start=-195
-names=['入料與去袋','D/L 轉角轉送','加熱取紙與上層充填','上層加塞／回退降層','震動盤與下層出料']
+names=['入料與去袋','D/L 轉角轉送','加熱取紙與共同升降','上層充填加塞／回退','震動盤與下層出料']
 centers=[]
 for i,w in enumerate(widths):
     x=start+w/2;centers.append(x);b=f'{i+1:02d}_base';h=f'{i+1:02d}_hood';dep=70
@@ -122,14 +122,14 @@ for i,w in enumerate(widths):
         lift=start+78
         for yy in [-17,17]:box([lift,yy,55],[3,3,46],'#c58332','process')
         box([lift,0,40.5],[21,32,3],'#c58332','lift')
+    elif i==3:
         # Upper filling bridge and five needles.
-        fill=x+38
+        fill=x-15
         for yy in [-17,17]:box([fill,yy,58],[4,4,53],'steel','process')
         box([fill,0,83],[13,38,4],'white','process')
         box([fill,0,77],[10,32,5],'teal','process')
         for yy in [-12,-6,0,6,12]:cyl([fill,yy,71],1,10,'steel','process')
         box([fill,22,52],[20,10,40],'white','process')
-    elif i==3:
         # Stoppering head and return/lower transfer zone.
         stop=x+6
         for yy in [-17,17]:box([stop,yy,59],[4,4,55],'steel','process')
@@ -156,8 +156,8 @@ for i,w in enumerate(widths):
         for yy in [18.5,25.5]:box([(start+left)/2,yy,81],[left-start+3,1.5,3],'steel','process')
         box([start+6,22,55],[3,3,48],'steel','process')
     # Side-mounted HMI and signal tower (screen bracket thickened in printable version).
-    if i in [1,2]:
-        xx=x
+    if i in [1,3]:
+        xx=fill if i==3 else x
         box([xx,-dep/2-4,38],[4,10,12],'steel','detail')
         box([xx,-dep/2-8,52],[3,3,30],'steel','detail')
         box([xx,-dep/2-9,69],[23,4,17],'dark','detail')
@@ -187,7 +187,7 @@ for i,w in enumerate(widths):
                 shape('cylinder',q.tolist(),[1.5,5],'white',i,'process',pitch,b)
     start+=w
 
-data={'units':'mm','width':391,'revision':9,'stages':[{'name':n,'x':float((layout(i)@np.array([x,0,0,1]))[0]),'y':float((layout(i)@np.array([x,0,0,1]))[1]),'width':w} for i,(n,x,w) in enumerate(zip(names,centers,widths))],'items':items,'notice':'外觀展示重建，非原廠 CAD；L 形與雙面手套孔依使用者描述；短邊比例及對稱孔位待確認；兩個 HMI，D/L 暫置短邊。末端整個 nest 滑出，斜坡暫定20度，尚未核對操作手冊。上下層高差、去膜與升降轉接機構、震動盤及供塞軌道為示意，依使用者流程建立，尚未核對原廠機構。模型尺寸為設計值，不代表原機比例。內部機構、背面、各段尺寸均為示意。'}
+data={'units':'mm','width':391,'revision':10,'stages':[{'name':n,'x':float((layout(i)@np.array([x,0,0,1]))[0]),'y':float((layout(i)@np.array([x,0,0,1]))[1]),'width':w} for i,(n,x,w) in enumerate(zip(names,centers,widths))],'items':items,'notice':'外觀展示重建，非原廠 CAD；L 形與雙面手套孔依使用者描述；短邊比例及對稱孔位待確認；兩個 HMI，D/L 暫置短邊。末端整個 nest 滑出，斜坡暫定20度，尚未核對操作手冊。上下層高差、去膜與升降轉接機構、震動盤及供塞軌道為示意，依使用者流程建立，尚未核對原廠機構。模型尺寸為設計值，不代表原機比例。內部機構、背面、各段尺寸均為示意。'}
 (OUT/'model.json').write_text(json.dumps(data,ensure_ascii=False))
 # GLB convention uses metres and Y up.
 scene.apply_transform(tm.transformations.rotation_matrix(-math.pi/2,[1,0,0]));scene.apply_scale(.001)
