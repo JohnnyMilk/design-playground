@@ -2,3 +2,5 @@
 
 /* Keep each selected description beside its station on every screen size. */
 #detail{grid-column:1/-1;display:block;background:#eef8f7;border:1px solid #b9ded9;border-radius:8px;padding:16px;margin:0 0 8px;min-height:0;overflow:visible}#detail[hidden]{display:none}.station strong{font-weight:400}.station.active strong{font-weight:600}#flow-status{z-index:3}#stations{align-items:start}
+
+#detail p{white-space:pre-line}#station-content-status{font-size:13px;color:#86550e;background:#fff4d9;padding:10px;border-radius:6px}

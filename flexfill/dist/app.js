@@ -1,3 +1,4 @@
+import {loadStationContent,escapeText} from './station-content.js?v=12';
 import * as THREE from 'three';
 import {OrbitControls} from './assets/OrbitControls.js';
 const mount=document.querySelector('#canvas'),status=document.querySelector('#loading');
@@ -32,20 +33,22 @@ try{
  const movingNest=new THREE.Mesh(new THREE.BoxGeometry(20,4,17),new THREE.MeshStandardMaterial({color:0xf4c257,transparent:true,opacity:.8}));flow.add(movingNest);
  let flowTime=0,followFlow=false;const flowStation=[0,1,2,2,2,2,2,3,3,3,2,4,4];const flowCheckbox=document.querySelector('#flow');
  flowCheckbox.onchange=()=>{followFlow=flowCheckbox.checked;flow.visible=flowCheckbox.checked;gateControl.disabled=flow.visible;if(!flow.visible)setGate(1);document.querySelector('#flow-status').hidden=!flow.visible;if(flow.visible){document.querySelector('#hood').checked=false;visibility();selected=-1;view('front');showStation(0);}flowTime=0;};
- let selected=-1;const desc=[['入料與去袋','從左側短邊上方入料，完成 debag，接續短邊 delid 作業。'],['D/L 轉角轉送','短邊在 L 型轉角直接轉入長邊，沒有短邊出料口。右轉後的長邊入口設有垂直升降 partition，橫跨向右輸送的通道，控制 nest 進入長邊。上蓋紙的加熱與移除作業設在轉過來之後的長邊第一站。'],['加熱取紙與共同升降','長邊第一站先以平行軌道的鰭片，在 nest 上方簡單加熱；接著由雙滾輪及吸盤取走上蓋紙，送至廢紙區。上層軌道入口已縮短、右移，位於取紙站之後。機構尺度與廢紙區位置仍為示意。'],['上層充填加塞／回退','充填工站已往右移至打膠塞工站旁，完成充填後只需短距離前進即可打膠塞。充填 HMI 隨之移至此區正前方。膠塞由震動盤入料，再經紫色導引軌道送至加塞頭；震動盤屬於此處的膠塞供料機構。完成充填與加塞後，nest 沿上層向左退回取紙站後方、原本升上來的位置，再由同一座升降台下降至下層，向右出料。'],['下層出料','完成充填與打膠塞的 nest 從共同升降台下降後，沿下層軌道向右前進，最後由最右端斜坡整組滑出。此工站聚焦斜坡出口與 nest 出料。']];
+ let selected=-1;const stationContent=await loadStationContent();
+ const desc=stationContent.stations.map(s=>[s.name,s.description]);
+ const contentStatus=document.querySelector('#station-content-status');contentStatus.textContent=stationContent.warning;contentStatus.hidden=!stationContent.warning;
  const stations=document.querySelector('#stations'),detail=document.querySelector('#detail');
  const overview=detail.innerHTML;
- desc.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='station';b.setAttribute('aria-controls','detail');b.setAttribute('aria-expanded','false');b.innerHTML=`<span>0${i+1}</span><strong>${s[0]}</strong>`;b.addEventListener('click',()=>select(i));stations.append(b);});
+ desc.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='station';b.setAttribute('aria-controls','detail');b.setAttribute('aria-expanded','false');b.innerHTML=`<span>0${i+1}</span><strong>${escapeText(s[0])}</strong>`;b.addEventListener('click',()=>select(i));stations.append(b);});
  function showStation(i){
   selected=i;
   const buttons=[...stations.querySelectorAll('.station')];
   buttons.forEach((b,n)=>{b.classList.toggle('active',n===i);b.setAttribute('aria-expanded',String(n===i));});
   detail.hidden=false;
-  detail.innerHTML=i<0?overview:`<span class="mini">工作站 0${i+1}</span><h2>${desc[i][0]}</h2><p>${desc[i][1]}</p>`;
+  detail.innerHTML=i<0?overview:`<span class="mini">工作站 0${i+1}</span><h2>${escapeText(desc[i][0])}</h2><p>${escapeText(desc[i][1])}</p>`;
   if(i<0)stations.after(detail);else buttons[i].after(detail);
  }
  function select(i){followFlow=false;showStation(i);view('perspective');}
- function view(v){const x=selected===4?195:selected<0?0:data.stages[selected].x,z=selected<0?-28:-data.stages[selected].y,d=selected===4?190:selected<0?590:Math.max(190,data.stages[selected].width*2);controls.target.set(x,selected===4?30:selected<0?45:55,z);const p={perspective:[x-d*.58,d*.60,z+d*.80],front:[x,60,z+d],top:[x,d,z+.01],back:[x,85,z-d]}[v];camera.up.set(0,1,0);camera.position.set(...p);controls.update();document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));document.querySelector('#mode-label').textContent=selected<0?'L 形配置 · 第 11 版':desc[selected][0];}
+ function view(v){const x=selected===4?195:selected<0?0:data.stages[selected].x,z=selected<0?-28:-data.stages[selected].y,d=selected===4?190:selected<0?590:Math.max(190,data.stages[selected].width*2);controls.target.set(x,selected===4?30:selected<0?45:55,z);const p={perspective:[x-d*.58,d*.60,z+d*.80],front:[x,60,z+d],top:[x,d,z+.01],back:[x,85,z-d]}[v];camera.up.set(0,1,0);camera.position.set(...p);controls.update();document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));document.querySelector('#mode-label').textContent=selected<0?'L 形配置 · 第 12 版':desc[selected][0];}
  document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>view(b.dataset.view)));document.querySelector('#all').onclick=()=>select(-1);document.querySelector('#reset').onclick=()=>{document.querySelector('#hood').checked=true;document.querySelector('#glass').checked=true;document.querySelector('#rotate').checked=false;controls.autoRotate=false;flowCheckbox.checked=false;flow.visible=false;gateControl.disabled=false;setGate(1);document.querySelector('#flow-status').hidden=true;visibility();select(-1);};
  function visibility(){meshes.forEach(m=>{m.visible=m.userData.category==='glass'?document.querySelector('#glass').checked&&document.querySelector('#hood').checked:m.userData.category==='hood'?document.querySelector('#hood').checked:true;});label.visible=document.querySelector('#hood').checked;}
  document.querySelector('#glass').onchange=visibility;document.querySelector('#hood').onchange=visibility;document.querySelector('#rotate').onchange=e=>controls.autoRotate=e.target.checked;
