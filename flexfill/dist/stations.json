@@ -8,17 +8,17 @@
     {
       "id": "02",
       "name": "手動 de-bag",
-      "description": "手動雙按鈕驅動裁刀 de-bag。待綠燈亮起後才成打開 partition 入料，進入全自動流程。"
+      "description": "手動 de-bag; 綠燈亮起後打開 partition 入料。"
     },
     {
       "id": "03",
-      "name": "自動de-lid",
-      "description": "先以平行軌道的鰭片在 nest 上方簡單加熱；接著由雙滾輪上的吸盤 de-lid，取下的 lid 會自動送入送至廢紙區，最後 nest 會移動至上方軌道準備充填"
+      "name": "自動 de-lid",
+      "description": "鰭片加熱脫膠；雙滾輪吸盤 de-lid 與 de-cover; nest 移動至上方軌道充填"
     },
     {
       "id": "04",
       "name": "充填打塞",
-      "description": "針筒以每分鐘80支的速度進行充填與打塞，完成充填後只需短距離前進即可打膠塞，完成後 nest 退回升降區並移動至下方軌道。"
+      "description": "針筒以每分鐘80支的速度進行充填與打塞，完成後 nest 退回升降區並移動至下方軌道。"
     },
     {
       "id": "05",
