@@ -1,6 +1,9 @@
 {
   "source_sha256": "eb5b49e271e8af6fd30cd990e28acee7b782e3a678d11f4028efd94822757e3f",
   "source_revision": 10,
+  "removed_payload_primitives": 83,
+  "removed_nests": 8,
+  "removed_vial_cylinders": 75,
   "units": "mm",
   "scale": 0.48990042797166833,
   "minimum_primitive_thickness_mm": 1.2,
@@ -42,10 +45,10 @@
       "watertight": true,
       "consistent_winding": true,
       "components": 1,
-      "volume_mm3": 150916.59,
-      "triangles": 18552,
-      "elevated_downward_area_mm2": 3679.19,
-      "sha256": "52a4c2fa9526c9639885f8a73d53dd48c7640c83672cf28cb7b365364f49ad06"
+      "volume_mm3": 149416.8,
+      "triangles": 8442,
+      "elevated_downward_area_mm2": 3679.29,
+      "sha256": "4758724a8d624cbd82bc416a212dc8c9e97a71270b7975c63467e175eccc4705"
     },
     {
       "file": "Flexfill_200mm_Module_A_Infeed_Turn.stl",
@@ -67,10 +70,10 @@
       "watertight": true,
       "consistent_winding": true,
       "components": 1,
-      "volume_mm3": 48211.07,
-      "triangles": 3240,
+      "volume_mm3": 47871.09,
+      "triangles": 848,
       "elevated_downward_area_mm2": 595.39,
-      "sha256": "ce18e8182c663aea7d0ce74da9185f90abcae395618b769c256efeea04422dd2"
+      "sha256": "5c9ae6a4e8e4414d117e4138d0b8e68cdd9f1cec9163030293dec292d83dc117"
     },
     {
       "file": "Flexfill_200mm_Module_B_Heat_Peel_Lift.stl",
@@ -91,10 +94,10 @@
       "watertight": true,
       "consistent_winding": true,
       "components": 1,
-      "volume_mm3": 48181.19,
-      "triangles": 5684,
+      "volume_mm3": 47636.52,
+      "triangles": 2152,
       "elevated_downward_area_mm2": 1279.31,
-      "sha256": "0ce2c07ed5ca54b8179341d4441d530760829cf7daf6323d018145c28a335cf6"
+      "sha256": "b8feb404ccf2ac02ade9a8fb86901aa7ac312b1a3d605c5e25ec90d4f2df431e"
     },
     {
       "file": "Flexfill_200mm_Module_C_Fill_Stopper_Outfeed.stl",
@@ -116,10 +119,10 @@
       "watertight": true,
       "consistent_winding": true,
       "components": 1,
-      "volume_mm3": 54267.23,
-      "triangles": 9702,
-      "elevated_downward_area_mm2": 1888.19,
-      "sha256": "93c80939b4cfebef1cb51eee4af10d51bc36c1a97c094bb9feae876f78a8a7a3"
+      "volume_mm3": 53652.1,
+      "triangles": 5526,
+      "elevated_downward_area_mm2": 1888.29,
+      "sha256": "4c88cdfd2fa0eacf3da8e54f1d87cc1f35a492056f6e49060630b138fc5a8394"
     },
     {
       "file": "Flexfill_Alignment_Key.stl",

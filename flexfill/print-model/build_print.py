@@ -15,8 +15,15 @@ def box(lo,hi):
 
 def union(parts):return tm.boolean.union(parts,engine='manifold')
 raw=[]
+removed_payload=[]
 for d in data['items']:
     if d['category'] in ['glass','hood']:continue
+    # Payload-only nest/vial primitives from build_model.py nest() and outlet tray.
+    # Preserve filling needles (r=1,h=10), stopper tips and vacuum pickup hardware.
+    payload=(d['kind']=='box' and d['size'] in [[20,17,4],[21,22,4]]) or (d['kind']=='cylinder' and d['size'] in [[1.6,7],[1.5,5]])
+    if payload:
+        removed_payload.append(dict(stage=d['stage'],kind=d['kind'],size=d['size'],pos=d['pos']))
+        continue
     # Original corner and central pedestals overlap by 1.7 source mm.
     # Move the entire infeed/corner base group, rather than cutting either pedestal.
     if d['stage']<2:d['pos'][0]-=2.3
@@ -98,7 +105,7 @@ def save(m,name,label,stages):
 save(one,'Flexfill_200mm_OnePiece.stl','A 一體成型（實驗性）',[0,1,2,3,4])
 for m,name,label,stages in zip(modules,['Flexfill_200mm_Module_A_Infeed_Turn.stl','Flexfill_200mm_Module_B_Heat_Peel_Lift.stl','Flexfill_200mm_Module_C_Fill_Stopper_Outfeed.stl'],['B1 入料與轉角','B2 加熱取紙與共同升降','B3 充填打膠塞與出料'],[[0,1],[2],[3,4]]):save(m,name,label,stages)
 save(box([0,0,0],[7.6,5.6,1.4]),'Flexfill_Alignment_Key.stl','底面定位片（列印 2 片）',[])
-report=dict(source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),source_revision=data['revision'],units='mm',scale=scale,minimum_primitive_thickness_mm=MIN,infeed_corner_translation_source_mm=[-2.3,0,0],thickened_primitives=thickened,permanent_detail_ties=links,seam_clearance_mm=.24,base_thickness_mm=3.2,key_clearance_per_side_mm=.2,files=records,limitations=['網格驗證完成；未執行 Bambu Studio 切片或實機列印。','最小厚度針對基本元件，非全網格局部厚度證明。','入料轉角整組左移 2.3 原始 mm，解除原始基座重疊；跨基座輸送於接縫分開。','下向表面面積為保守指標；支撐可達性、細針與上下層通道需切片逐層確認。'])
+report=dict(source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),source_revision=data['revision'],removed_payload_primitives=len(removed_payload),removed_nests=sum(x['kind']=='box' for x in removed_payload),removed_vial_cylinders=sum(x['kind']=='cylinder' for x in removed_payload),units='mm',scale=scale,minimum_primitive_thickness_mm=MIN,infeed_corner_translation_source_mm=[-2.3,0,0],thickened_primitives=thickened,permanent_detail_ties=links,seam_clearance_mm=.24,base_thickness_mm=3.2,key_clearance_per_side_mm=.2,files=records,limitations=['網格驗證完成；未執行 Bambu Studio 切片或實機列印。','最小厚度針對基本元件，非全網格局部厚度證明。','入料轉角整組左移 2.3 原始 mm，解除原始基座重疊；跨基座輸送於接縫分開。','下向表面面積為保守指標；支撐可達性、細針與上下層通道需切片逐層確認。'])
 assembly=[]
 for m in modules:assembly.append(m)
 for i in range(3):
