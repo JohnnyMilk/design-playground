@@ -1,0 +1,162 @@
+{
+  "source_sha256": "eb5b49e271e8af6fd30cd990e28acee7b782e3a678d11f4028efd94822757e3f",
+  "source_revision": 10,
+  "units": "mm",
+  "scale": 0.48990042797166833,
+  "minimum_primitive_thickness_mm": 1.2,
+  "infeed_corner_translation_source_mm": [
+    -2.3,
+    0,
+    0
+  ],
+  "thickened_primitives": 75,
+  "permanent_detail_ties": [
+    0,
+    0,
+    0
+  ],
+  "seam_clearance_mm": 0.24,
+  "base_thickness_mm": 3.2,
+  "key_clearance_per_side_mm": 0.2,
+  "files": [
+    {
+      "file": "Flexfill_200mm_OnePiece.stl",
+      "label": "A 一體成型（實驗性）",
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dimensions_mm": [
+        200.0,
+        81.287,
+        47.781
+      ],
+      "assembly_offset_mm": [
+        0.0,
+        0.453286,
+        0.0
+      ],
+      "watertight": true,
+      "consistent_winding": true,
+      "components": 1,
+      "volume_mm3": 150916.59,
+      "triangles": 18552,
+      "elevated_downward_area_mm2": 3679.19,
+      "sha256": "52a4c2fa9526c9639885f8a73d53dd48c7640c83672cf28cb7b365364f49ad06"
+    },
+    {
+      "file": "Flexfill_200mm_Module_A_Infeed_Turn.stl",
+      "label": "B1 入料與轉角",
+      "stages": [
+        0,
+        1
+      ],
+      "dimensions_mm": [
+        42.085,
+        76.424,
+        41.167
+      ],
+      "assembly_offset_mm": [
+        0.0,
+        5.31542,
+        0.0
+      ],
+      "watertight": true,
+      "consistent_winding": true,
+      "components": 1,
+      "volume_mm3": 48211.07,
+      "triangles": 3240,
+      "elevated_downward_area_mm2": 595.39,
+      "sha256": "ce18e8182c663aea7d0ce74da9185f90abcae395618b769c256efeea04422dd2"
+    },
+    {
+      "file": "Flexfill_200mm_Module_B_Heat_Peel_Lift.stl",
+      "label": "B2 加熱取紙與共同升降",
+      "stages": [
+        2
+      ],
+      "dimensions_mm": [
+        63.447,
+        37.232,
+        47.781
+      ],
+      "assembly_offset_mm": [
+        42.324921,
+        5.31542,
+        0.0
+      ],
+      "watertight": true,
+      "consistent_winding": true,
+      "components": 1,
+      "volume_mm3": 48181.19,
+      "triangles": 5684,
+      "elevated_downward_area_mm2": 1279.31,
+      "sha256": "0ce2c07ed5ca54b8179341d4441d530760829cf7daf6323d018145c28a335cf6"
+    },
+    {
+      "file": "Flexfill_200mm_Module_C_Fill_Stopper_Outfeed.stl",
+      "label": "B3 充填打膠塞與出料",
+      "stages": [
+        3,
+        4
+      ],
+      "dimensions_mm": [
+        93.988,
+        42.095,
+        45.821
+      ],
+      "assembly_offset_mm": [
+        106.011978,
+        0.453286,
+        0.0
+      ],
+      "watertight": true,
+      "consistent_winding": true,
+      "components": 1,
+      "volume_mm3": 54267.23,
+      "triangles": 9702,
+      "elevated_downward_area_mm2": 1888.19,
+      "sha256": "93c80939b4cfebef1cb51eee4af10d51bc36c1a97c094bb9feae876f78a8a7a3"
+    },
+    {
+      "file": "Flexfill_Alignment_Key.stl",
+      "label": "底面定位片（列印 2 片）",
+      "stages": [],
+      "dimensions_mm": [
+        7.6,
+        5.6,
+        1.4
+      ],
+      "assembly_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "watertight": true,
+      "consistent_winding": true,
+      "components": 1,
+      "volume_mm3": 59.58,
+      "triangles": 12,
+      "elevated_downward_area_mm2": 0.0,
+      "sha256": "2dc7866c34820cc9afd923955ef640370fc8649ad52e4672e3d3d61ec665e2dc"
+    }
+  ],
+  "limitations": [
+    "網格驗證完成；未執行 Bambu Studio 切片或實機列印。",
+    "最小厚度針對基本元件，非全網格局部厚度證明。",
+    "入料轉角整組左移 2.3 原始 mm，解除原始基座重疊；跨基座輸送於接縫分開。",
+    "下向表面面積為保守指標；支撐可達性、細針與上下層通道需切片逐層確認。"
+  ],
+  "assembly_checks": {
+    "dimensions_mm": [
+      200.0,
+      81.287,
+      47.781
+    ],
+    "module_intersection_volume_mm3": 0,
+    "main_pedestal_envelopes_preserved": true
+  }
+}
